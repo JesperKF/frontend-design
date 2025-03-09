@@ -1,73 +1,107 @@
 .bento {
+  margin-inline: max(1rem, 50% - 1000px / 2);
   display: grid;
   gap: var(--spacing-base);
+  grid-auto-columns: 1fr;
+  grid-auto-rows: min-content;
   grid-template-areas:
     "title title cup"
-    "man   list  cup "
+    "man   list  cup"
     "man   list  tag";
-
-  .title {
-    --bg: var(--color-brand-yellow);
-    grid-area: title;
-  }
-
-  .list {
-    --bg: var(--color-brand-coffee);
-    grid-area: list;
-  }
-
-  .image-1 {
-    color: var(--color-text-accent);
-    grid-area: cup;
-  }
-
-  .tag {
-    --bg: var(--color-brand-olive);
-    font-size: 2rem;
-    line-height: 1.2;
-    grid-area: tag;
-  }
-
-  .image-2 {
-    color: var(--color-text-accent);
-    grid-area: man;
-  }
 
   @media (width < 650px) {
     grid-template-areas:
       "title title"
-      " cup  man"
+      "cup   man"
       "list  tag";
   }
-}
 
-.card {
-  container-type: inline-size;
-  border-radius: var(--border-radius);
-  background: var(--bg);
-  overflow: clip;
-
-  &:not(:has(img)) {
+  > * {
+    border-radius: var(--border-radius);
+    background: var(--bg);
     padding: var(--spacing-base);
+    overflow: clip;
+    &:has(img) {
+      padding: 0;
+    }
   }
-}
 
-@container (width < 300px) {
-  .card {
-    padding: var(--spacing-base);
+  img {
+    block-size: 100%;
+    padding: 0;
+    align-self: stretch;
+    object-fit: cover;
   }
-}
 
-h2 {
-  font-size: 4rem;
-  line-height: 1.1;
-  color: var(--color-text-dark);
-  margin-bottom: var(--spacing-base);
-}
+  .title {
+    --bg: var(--color-brand-yellow);
+    container-type: inline-size;
+    grid-area: title;
+    display: grid;
 
-.website {
-  font-size: 1.2rem;
-  margin-top: auto;
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      @container (width < 400px) {
+        display: contents;
+        > p:first-of-type {
+          order: -1;
+          margin-bottom: 1rlh;
+        }
+      }
+    }
+    h2 {
+      font-size: clamp(2rem, 15cqw, 4rem);
+    }
+  }
+
+  .cup {
+    grid-area: cup;
+    display: grid;
+    grid: "stack";
+    justify-items: center;
+    align-items: end;
+    color: var(--color-text-accent);
+    > * {
+      grid-area: stack;
+      &:not(img) {
+        margin: var(--spacing-base);
+      }
+    }
+    p:first-of-type {
+      align-self: start;
+    }
+  }
+
+  .man {
+    grid-area: man;
+  }
+
+  .list {
+    --bg: var(--color-brand-coffee);
+    color: #fff;
+    grid-area: list;
+    list-style: none;
+    font-size: 2rem;
+    line-height: 1.5;
+    display: grid;
+    place-content: center;
+
+    .highlight {
+      color: var(--color-menu-highlight);
+      &::before {
+        content: "⚡";
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .tag {
+    --bg: var(--color-brand-olive);
+    grid-area: tag;
+  }
 }
 
 @layer {
